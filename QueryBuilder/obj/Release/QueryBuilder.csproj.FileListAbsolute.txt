@@ -1,0 +1,5 @@
+C:\Development\Scanworks 7.3\ScanworksService\QueryBuilder\bin\Release\QueryBuilder.dll
+C:\Development\Scanworks 7.3\ScanworksService\QueryBuilder\bin\Release\QueryBuilder.pdb
+C:\Development\Scanworks 7.3\ScanworksService\QueryBuilder\obj\Release\ResolveAssemblyReference.cache
+C:\Development\Scanworks 7.3\ScanworksService\QueryBuilder\obj\Release\QueryBuilder.dll
+C:\Development\Scanworks 7.3\ScanworksService\QueryBuilder\obj\Release\QueryBuilder.pdb

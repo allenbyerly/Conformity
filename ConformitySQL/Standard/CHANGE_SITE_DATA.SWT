@@ -1,0 +1,151 @@
+prompt Creating ADMIN Change Site - Standard: Transaction Data
+prompt Creating ADMIN Change Site - Standard: Field Data
+------------------------------------------------------------------------------------------
+  -- Scanworks 7: &standard_package
+  -- Transaction: ADMIN Change Site
+  -- Author:      Allen Byerly
+  -- Version:     &standard_package
+  -- Date         09/01/2010
+  ------------------------------------------------------------------------------------------  
+  -- Description:
+  -- This Script Creates The Transaction and Field Data for the Change Site -Demo Transaction.
+  -- 1.  Set the Transaction specific variables at the beginning of the script
+  -- 2.  Set fields and attributes by creating additional field insert statements.
+  -- 3.  Field hierarchy is determined by the order in which insert statements appear.
+  --
+  -- Implements: Standard Component
+  -- Implements ADMIN Change Site
+  -- Modifications: None
+  ------------------------------------------------------------------------------------------
+DECLARE
+
+  transaction_                ESI_SW_TRANSACTIONS_TAB.Transaction%TYPE;
+  title_                      ESI_SW_TRANSACTIONS_TAB.Title%TYPE;
+  description_                ESI_SW_TRANSACTIONS_TAB.Description%TYPE;
+  package_                    ESI_SW_TRANSACTIONS_TAB.Package%TYPE;
+  api_                        ESI_SW_TRANSACTIONS_TAB.Api%TYPE;
+  version_                    ESI_SW_TRANSACTIONS_TAB.Version%TYPE;
+  
+  hierarchy_                  NUMBER;
+
+BEGIN
+  ------------------------------------------------------------------------------------------  
+  -- SET TRANSACTION SETTINGS:
+  -- Set the various transaction specific settings.
+  ------------------------------------------------------------------------------------------
+  transaction_ := 'ADMIN Change Site';
+  title_       := 'ADMIN Change Site';
+  description_ := 'Standard administrative function to change the Site of a user';
+  package_     := '&standard_package';
+  api_         := 'AdminChangeSite';
+  version_     := '&standard_version';  
+  
+  ------------------------------------------------------------------------------------------ 
+  -- DO NOT MODIFY THIS SECTION
+  -- This section is used to automatically perform transaction and field data updates
+  ------------------------------------------------------------------------------------------ 
+  hierarchy_   := '1';
+  
+  DELETE FROM ESI_SW_FIELDS_TAB
+  WHERE transaction = transaction_;
+  
+  BEGIN
+     INSERT INTO esi_sw_transactions_tab(transaction,
+                                         title,
+                                         description,
+                                         package,
+                                         api,
+                                         version)
+     VALUES (transaction_,
+             title_,
+             description_,
+             package_,
+             api_,
+             version_);
+  EXCEPTION
+     WHEN DUP_VAL_ON_INDEX THEN
+        UPDATE esi_sw_transactions_tab
+        SET transaction = transaction_,
+            title = title_,
+            description = description_,
+            package = package_,
+            api = api_,
+            version = version_
+        WHERE transaction = transaction_;
+  END;
+
+  ------------------------------------------------------------------------------------------  
+  -- SET FIELD SETTINGS:
+  -- Add/Remove individual fields
+  -- Set the various field specific settings.
+  --
+  -- Editable Field Attributes:
+  -- TRANSACTION - DO NOT MODIFY - THIS IS SET AT THE BEGINNING OF THE SCRIPT
+  -- HIERARCHY - DO NOT MODIFY - THIS IS DETERMINED BY THE ORDER FIELDS APPEAR BELOW
+  -- FIELD_ID - UNIQUE IDENTIFIER FOR THE FIELD
+  -- ENABLED - DOES THE FIELD APPEAR ON THE SCREEN
+  -- CONFIGURABLE - CAN THE FIELD BE AUTO-VALIDATED AND RE-ARRANGED ON THE SCREEN
+  -- PROMPT - THE FIELD PROMPT THAT DISPLAYS NEXT TO THE FIELD ON THE SCREEN
+  -- LOOKUP TABLE - IF ONFIGURABLE, WHAT TABLE IS QUERIED WHEN VALIDATING THIS FIELDS VALUES
+  -- FIELD NAME - IF CONFIGURABLE, WHAT FIELD IN A TABLE RERESENTS THIS FIELDS VALUES
+  -- DEFAULT VALUE - WHAT IS THE DEFAULT VALUE FOR THIS FIELD ON THE SCREEN
+  -- MAX LENGTH - WHAT IS THE MAXIMUM LENGTH OF THIS FIELDS VALUE (DEFAULT 100)
+  -- READ_ONLY - IS THIS FIELD ALWAYS READ ONLY
+  -- UPPERCASE - IS THIS FIELDS VALUES TO BE ONLY UPPERCASE
+  -- HAS UOM - DOES THISFIELD HAVE A UOM ASSOCIATED WITH IT
+  -- LOV OVERRIDE QUERY - LOV QUERY THAT CAN BE USED TO MANUALLY OVERRIDE DEFAULTS 
+  -- LOV PROMPT - THE PROMPT THAT SHOULD DISPLAY FOR THE FIELD INSIDE EACH LOV
+  -- LOV ON ENTRY - SHOULD THE LOV DISPLAY ON ENTRY OF THIS FIELD
+  -- LOV READ ONLY - DOES THE LOV RETURN DATA OR ONLY DISPLAY VALUES
+  ------------------------------------------------------------------------------------------
+
+  --CURRENT_CONTRACT
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'CURRENT_CONTRACT',--FIELD_ID
+          'Y',--ENABLED
+          'Y',--CONFIGURABLE
+          'Current Site',--PROMPT
+          'USER_ALLOWED_SITE',--LOOKUP TABLE
+          'CURRENT_CONTRACT',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'Y',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          '',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+   
+  --CONTRACT
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'CONTRACT',--FIELD_ID
+          'Y',--ENABLED
+          'Y',--CONFIGURABLE
+          'New Site',--PROMPT
+          'USER_ALLOWED_SITE',--LOOKUP TABLE
+          'CONTRACT',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Site',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+
+   
+COMMIT;
+END;
+/

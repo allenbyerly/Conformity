@@ -1,0 +1,444 @@
+prompt Creating INV Inquiry Print - &package: Transaction Data
+prompt Creating INV Inquiry Print - &package: Field Data
+------------------------------------------------------------------------------------------
+  -- Scanworks 7: &package
+  -- Transaction: INV Inquiry Print
+  -- Author:      Barry Bohlman
+  -- Version:     &version
+  -- Date         04/27/2011
+  ------------------------------------------------------------------------------------------  
+  -- Description:
+  -- This Script Creates The Transaction and Field Data forthe INV Inquiry Print Transaction.
+  ------------------------------------------------------------------------------------------
+DECLARE
+
+  transaction_                ESI_SW_TRANSACTIONS_TAB.Transaction%TYPE;
+  title_                      ESI_SW_TRANSACTIONS_TAB.Title%TYPE;
+  description_                ESI_SW_TRANSACTIONS_TAB.Description%TYPE;
+  package_                    ESI_SW_TRANSACTIONS_TAB.Package%TYPE;
+  api_                        ESI_SW_TRANSACTIONS_TAB.Api%TYPE;
+  version_                    ESI_SW_TRANSACTIONS_TAB.Version%TYPE;
+  
+  hierarchy_                  NUMBER;
+
+BEGIN
+  ------------------------------------------------------------------------------------------  
+  -- SET TRANSACTION SETTINGS:
+  -- Set the various transaction specific settings.
+  ------------------------------------------------------------------------------------------
+  transaction_ := 'INV Print Inquiry';
+  title_       := 'INV Print Inquiry ';
+  description_ := 'Inventory Inquiry and Label Printing for IFS';
+  package_     := '&package';
+  api_         := 'InvInquiryPrint';
+  version_     := '&version';  
+  
+  ------------------------------------------------------------------------------------------ 
+  -- DO NOT MODIFY THIS SECTION
+  -- This section is used to automatically perform transaction and field data updates
+  ------------------------------------------------------------------------------------------ 
+  hierarchy_   := '1';
+  
+  DELETE FROM ESI_SW_FIELDS_TAB
+  WHERE transaction = transaction_;
+  
+  BEGIN
+     INSERT INTO esi_sw_transactions_tab(transaction,
+                                         title,
+                                         description,
+                                         package,
+                                         api,
+                                         version)
+     VALUES (transaction_,
+             title_,
+             description_,
+             package_,
+             api_,
+             version_);
+  EXCEPTION
+     WHEN DUP_VAL_ON_INDEX THEN
+        UPDATE esi_sw_transactions_tab
+        SET transaction = transaction_,
+            title = title_,
+            description = description_,
+            package = package_,
+            api = api_,
+            version = version_
+        WHERE transaction = transaction_;
+  END;
+
+  ------------------------------------------------------------------------------------------  
+  -- SET FIELD SETTINGS:
+  -- Add/Remove individual fields
+  -- Set the various field specific settings.
+  --
+  -- Editable Field Attributes:
+  -- TRANSACTION - DO NOT MODIFY - THIS IS SET AT THE BEGINNING OF THE SCRIPT
+  -- HIERARCHY - DO NOT MODIFY - THIS IS DETERMINED BY THE ORDER FIELDS APPEAR BELOW
+  -- FIELD_ID - UNIQUE IDENTIFIER FOR THE FIELD
+  -- ENABLED - DOES THE FIELD APPEAR ON THE SCREEN
+  -- CONFIGURABLE - CAN THE FIELD BE AUTO-VALIDATED AND RE-ARRANGED ON THE SCREEN
+  -- PROMPT - THE FIELD PROMPT THAT DISPLAYS NEXT TO THE FIELD ON THE SCREEN
+  -- LOOKUP TABLE - IF ONFIGURABLE, WHAT TABLE IS QUERIED WHEN VALIDATING THIS FIELDS VALUES
+  -- FIELD NAME - IF CONFIGURABLE, WHAT FIELD IN A TABLE RERESENTS THIS FIELDS VALUES
+  -- DEFAULT VALUE - WHAT IS THE DEFAULT VALUE FOR THIS FIELD ON THE SCREEN
+  -- MAX LENGTH - WHAT IS THE MAXIMUM LENGTH OF THIS FIELDS VALUE (DEFAULT 100)
+  -- READ_ONLY - IS THIS FIELD ALWAYS READ ONLY
+  -- UPPERCASE - IS THIS FIELDS VALUES TO BE ONLY UPPERCASE
+  -- HAS UOM - DOES THISFIELD HAVE A UOM ASSOCIATED WITH IT
+  -- LOV OVERRIDE QUERY - LOV QUERY THAT CAN BE USED TO MANUALLY OVERRIDE DEFAULTS 
+  -- LOV PROMPT - THE PROMPT THAT SHOULD DISPLAY FOR THE FIELD INSIDE EACH LOV
+  -- LOV ON ENTRY - SHOULD THE LOV DISPLAY ON ENTRY OF THIS FIELD
+  -- LOV READ ONLY - DOES THE LOV RETURN DATA OR ONLY DISPLAY VALUES
+  ------------------------------------------------------------------------------------------
+
+
+   --LOCATION_NO
+    INSERT INTO esi_sw_fields_tab
+    VALUES (transaction_,
+            hierarchy_,
+            'LOCATION_NO',--FIELD_ID
+            'Y',--ENABLED
+            'Y',--CONFIGURABLE
+            'Location',--PROMPT
+            'ESI_INVENTORY',--LOOKUP TABLE
+            'LOCATION_NO',--FIELD NAME
+            '',--DEFAULT VALUE
+            '',--MAX LENGTH
+            'N',--READ_ONLY
+            'Y',--UPPERCASE
+            'N',--HAS UOM
+            '',--LOV OVERRIDE QUERY
+            'Location',--LOV PROMPT
+            'N',--LOV ON ENTRY
+            'N',--LOV READ ONLY
+            SYSDATE);
+     
+   hierarchy_    := hierarchy_ + 1;
+   
+   --PART_NO
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'PART_NO',--FIELD_ID
+          'Y',--ENABLED
+          'Y',--CONFIGURABLE
+          'Part',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'PART_NO',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Part',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+   
+   --DESCRIPTION
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'DESCRIPTION',--FIELD_ID
+          'Y',--ENABLED
+          'N',--CONFIGURABLE
+          '',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'DESCRIPTION',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'Y',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Desc',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+   
+   --SERIAL_NO
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'SERIAL_NO',--FIELD_ID
+          'N',--ENABLED
+          'Y',--CONFIGURABLE
+          'Serial',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'SERIAL_NO',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Serial',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+   
+   --LOT_BATCH_NO
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'LOT_BATCH_NO',--FIELD_ID
+          'Y',--ENABLED
+          'Y',--CONFIGURABLE
+          'Lot',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'LOT_BATCH_NO',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Lot',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+
+   --ENG_CHG_LEVEL
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'ENG_CHG_LEVEL',--FIELD_ID
+          'N',--ENABLED
+          'Y',--CONFIGURABLE
+          'EC',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'ENG_CHG_LEVEL',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'EC',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+   
+   --WAIV_DEV_REJ_NO
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'WAIV_DEV_REJ_NO',--FIELD_ID
+          'N',--ENABLED
+          'Y',--CONFIGURABLE
+          'WDR',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'WAIV_DEV_REJ_NO',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'WDR',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+    
+   --CONFIGURATION_ID
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'CONFIGURATION_ID',--FIELD_ID
+          'N',--ENABLED
+          'Y',--CONFIGURABLE
+          'Configuration',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'CONFIGURATION_ID',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Configuration',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+
+  --EXPIRATION_DATE
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'EXPIRATION_DATE',--FIELD_ID
+          'Y',--ENABLED
+          'Y',--CONFIGURABLE
+          'Expiration',--PROMPT
+          'ESI_INVENTORY',--LOOKUP TABLE
+          'TO_CHAR(EXPIRATION_DATE, ''DD/MM/YYYY'')',--FIELD NAME
+          '',--DEFAULT VALUE
+          '',--MAX LENGTH
+          'Y',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Expiration',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1; 
+
+   --LOCATION
+    INSERT INTO esi_sw_fields_tab
+    VALUES (transaction_,
+            hierarchy_,
+            'LOCATION',--FIELD_ID
+            'Y',--ENABLED
+            'Y',--CONFIGURABLE
+            'Location',--PROMPT
+            'ESI_INVENTORY',--LOOKUP TABLE
+            'LOCATION_NO',--FIELD NAME
+            '',--DEFAULT VALUE
+            '',--MAX LENGTH
+            'N',--READ_ONLY
+            'Y',--UPPERCASE
+            'N',--HAS UOM
+            '',--LOV OVERRIDE QUERY
+            'Location',--LOV PROMPT
+            'N',--LOV ON ENTRY
+            'N',--LOV READ ONLY
+            SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1; 
+
+   --AVAILABILITY_CONTROL
+    INSERT INTO esi_sw_fields_tab
+    VALUES (transaction_,
+            hierarchy_,
+            'AVAILABILITY_CONTROL',--FIELD_ID
+            'Y',--ENABLED
+            'Y',--CONFIGURABLE
+            'AC',--PROMPT
+            'ESI_INVENTORY',--LOOKUP TABLE
+            'AVAILABILITY_CONTROL_ID',--FIELD NAME
+            '',--DEFAULT VALUE
+            '',--MAX LENGTH
+            'Y',--READ_ONLY
+            'Y',--UPPERCASE
+            'N',--HAS UOM
+            '',--LOV OVERRIDE QUERY
+            '',--LOV PROMPT
+            'N',--LOV ON ENTRY
+            'N',--LOV READ ONLY
+            SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1; 
+
+    --QTY_ONHAND
+     INSERT INTO esi_sw_fields_tab
+     VALUES (transaction_,
+             hierarchy_,
+             'QTY_ONHAND',--FIELD_ID
+             'Y',--ENABLED
+             'Y',--CONFIGURABLE
+             'Qty On Hand',--PROMPT
+             'ESI_INVENTORY',--LOOKUP TABLE
+             'QTY_ONHAND',--FIELD NAME
+             '',--DEFAULT VALUE
+             '',--MAX LENGTH
+             'Y',--READ_ONLY
+             'Y',--UPPERCASE
+             'Y',--HAS UOM
+             '',--LOV OVERRIDE QUERY
+             'Qty On Hand',--LOV PROMPT
+             'N',--LOV ON ENTRY
+             'N',--LOV READ ONLY
+             SYSDATE);
+      
+   hierarchy_    := hierarchy_ + 1;
+
+     --QTY_RESERVED
+     INSERT INTO esi_sw_fields_tab
+     VALUES (transaction_,
+             hierarchy_,
+             'QTY_RESERVED',--FIELD_ID
+             'N',--ENABLED
+             'Y',--CONFIGURABLE
+             'Qty Reserved',--PROMPT
+             'ESI_INVENTORY',--LOOKUP TABLE
+             'QTY_RESERVED',--FIELD NAME
+             '',--DEFAULT VALUE
+             '',--MAX LENGTH
+             'Y',--READ_ONLY
+             'Y',--UPPERCASE
+             'Y',--HAS UOM
+             '',--LOV OVERRIDE QUERY
+             'Qty Reserved',--LOV PROMPT
+             'N',--LOV ON ENTRY
+             'N',--LOV READ ONLY
+             SYSDATE);
+      
+   hierarchy_    := hierarchy_ + 1;
+
+   --PRINT
+     INSERT INTO esi_sw_fields_tab
+     VALUES (transaction_,
+             hierarchy_,
+             'PRINT',--FIELD_ID
+             'N',--ENABLED
+             'N',--CONFIGURABLE
+             'Print (Y/N)',--PROMPT
+             '',--LOOKUP TABLE
+             'PRINT',--FIELD NAME
+             'N',--DEFAULT VALUE
+             '1',--MAX LENGTH
+             'N',--READ_ONLY
+             'Y',--UPPERCASE
+             'N',--HAS UOM
+             '',--LOV OVERRIDE QUERY
+             'Print (Y/N)',--LOV PROMPT
+             'N',--LOV ON ENTRY
+             'N',--LOV READ ONLY
+             SYSDATE);
+      
+   hierarchy_    := hierarchy_ + 1;
+  
+   --PRINT_QTY
+  INSERT INTO esi_sw_fields_tab
+  VALUES (transaction_,
+          hierarchy_,
+          'PRINT_QTY',--FIELD_ID
+          'Y',--ENABLED
+          'N',--CONFIGURABLE
+          'Quantity',--PROMPT
+          '',--LOOKUP TABLE
+          'PRINT_QTY',--FIELD NAME
+          '',--DEFAULT VALUE
+          '2',--MAX LENGTH
+          'N',--READ_ONLY
+          'Y',--UPPERCASE
+          'N',--HAS UOM
+          '',--LOV OVERRIDE QUERY
+          'Print Qty',--LOV PROMPT
+          'N',--LOV ON ENTRY
+          'N',--LOV READ ONLY
+          SYSDATE);
+   
+   hierarchy_    := hierarchy_ + 1;
+
+
+COMMIT;
+END;
+/

@@ -1,0 +1,11 @@
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\IfsInterface.dll
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\IfsInterface.pdb
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\QueryBuilder.dll
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\ScannerFunctions.dll
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\QueryBuilder.pdb
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\bin\Release\ScannerFunctions.pdb
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\obj\Release\ResolveAssemblyReference.cache
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\obj\Release\IfsInterface.Icons.resources
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\obj\Release\IfsInterface.csproj.GenerateResource.Cache
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\obj\Release\IfsInterface.dll
+C:\Development\Scanworks 7.3\ScanworksService\IfsInterface\obj\Release\IfsInterface.pdb
